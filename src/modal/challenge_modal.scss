@@ -1,0 +1,156 @@
+@import "../../style/colors.scss";
+@import "../../style/modal.scss"; // Import base modal styles
+
+/* Base styles for the challenge modal content */
+.challenge-content {
+    padding: 20px 40px; /* Reduced top/bottom padding */
+    text-align: left;
+    // max-width: 600px; // REMOVED from here
+    // margin: 0 auto; // REMOVED from here
+}
+
+/* Center the header content */
+.challenge-header {
+    max-width: 600px; /* MOVED HERE */
+    margin: 0 auto 15px auto; /* MOVED HERE & adjusted bottom margin */
+    text-align: center; /* Ensure centering */
+
+    h2 {
+        margin-bottom: 10px; /* Reduced margin */
+        font-size: 1.2em; /* Reduced font size */
+        color: $title-gray;
+        // text-align: center; // Redundant, parent is centered
+    }
+
+    #challenge-count { // Targeting the ID directly
+        margin-bottom: 0; // Remove bottom margin as it's handled by parent
+        font-size: 0.9em; /* Reduced font size */
+        color: #666; // Optional: slightly dimmer color
+        // text-align: center; // Redundant, parent is centered
+    }
+}
+
+/* Styles for the challenge list */
+#challenge-list {
+    list-style: none;
+    padding: 0;
+    margin: 1em 0;
+    max-height: 60vh; /* Limit height and allow scrolling */
+    overflow-y: auto; 
+}
+
+/* Styles for individual challenge items */
+.challenge-item {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    position: relative; /* Needed for absolute positioning of checkmark/tooltip */
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    background-color: #f9f9f9; /* Default background */
+    opacity: 0.75; /* Slightly faded when incomplete */
+}
+
+/* Hide checkmark VERY specifically for items WITHOUT .completed class */
+.challenge-item:not(.completed) .checkmark {
+    display: none !important; 
+}
+
+/* Keep hover effect */
+.challenge-item:hover {
+    opacity: 1; /* Fully opaque on hover */
+}
+
+/* Explicitly show checkmark ONLY for items WITH .completed class */
+.challenge-item.completed .checkmark {
+    display: inline !important; /* Show checkmark when completed */
+    color: green;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.challenge-item .title {
+    font-weight: bold;
+    margin-right: 10px;
+    display: block; /* Make title take its own line */
+    margin-bottom: 4px;
+}
+
+.challenge-item .description {
+    font-size: 0.9em;
+    color: #555;
+    display: block; /* Make description take its own line */
+     margin-bottom: 4px;
+}
+
+/* Container for centering the code and icon together */
+.standard-container {
+    display: block;
+    text-align: center;
+    margin-top: 5px; /* Keep space above */
+}
+
+.challenge-item .standard-code {
+    display: inline-block; /* Ensure inline behavior with block properties */
+    vertical-align: middle; /* Align vertically with icon */
+    // text-align: center; /* REMOVED: Centering handled by container */
+    font-size: 0.8em;
+    color: #888;
+    // margin-top: 5px; /* REMOVED: Margin handled by container */
+    // margin-left: 5px; // Remove left margin as it's centered now
+}
+
+/* Styles for completed challenge items */
+.challenge-item.completed {
+    background-color: #e8f5e9; /* Light green background */
+    border-color: #a5d6a7;
+    opacity: 1; /* Fully opaque when completed */
+}
+
+.challenge-item.completed .title,
+.challenge-item.completed .description,
+.challenge-item.completed .standard-code {
+    /* Optional: Slightly fade text for completed items */
+    /* opacity: 0.7; */
+}
+
+/* Basic CSS Tooltip Implementation */
+.tooltip-trigger {
+    position: relative; /* Ensure the item is a positioning context */
+}
+
+.tooltip-trigger::after {
+    content: attr(data-tooltip); /* Use the data-tooltip attribute */
+    position: absolute;
+    top: 100%; /* POSITIONED BELOW the element */
+    left: 50%;
+    transform: translateX(-50%) translateY(5px); /* Center and add slight offset BELOW */
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.75em; /* MADE TEXT SMALLER */
+    white-space: normal !important; /* ADDED !important to force wrapping */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none; /* Prevent tooltip from blocking hover on element */
+    z-index: 10; /* Ensure tooltip is above other elements */
+    width: auto; /* Let width be automatic up to max-width */
+    min-width: 450px; /* UPDATED: Set minimum width */
+    max-width: 500px !important; /* MADE BOX WIDER (AGAIN) */
+}
+
+.tooltip-trigger:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Make the tooltip icon itself smaller and add spacing */
+.standard-tooltip-trigger {
+    display: inline-block; /* Ensure inline behavior with block properties */
+    vertical-align: middle; /* Align vertically with code */
+    font-size: 0.8em; 
+    cursor: help; /* Keep the help cursor */
+    margin-left: 4px; /* Add space between code and icon */
+} 

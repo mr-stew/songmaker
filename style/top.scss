@@ -1,0 +1,528 @@
+@import "colors.scss";
+
+#header-back,
+#topbar .header-link {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.1ex;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 120;
+  }
+  50% {
+    stroke-dashoffset: 30;
+    transform: rotate(240deg);
+  }
+  100% {
+    stroke-dashoffset: 120;
+    transform: rotate(720deg);
+  }
+}
+
+#topbar {
+  border-bottom: 1px solid $background-gray;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 81px;
+  background: $top-background-gray;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  
+  #badges-section {
+    display: flex;
+    align-items: center;
+    background-color: #9c27b0;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 15px;
+  }
+  
+  #badges-label {
+    font-size: 14px;
+    margin-right: 5px;
+    font-weight: 500;
+  }
+  
+  #badge-count-display {
+    font-size: 14px;
+    margin-left: 2px;
+    margin-right: 8px;
+    font-weight: 500;
+  }
+  
+  #badge-icons-container {
+    display: flex;
+    align-items: center;
+    
+    .top-badge-icon {
+      position: relative;
+      display: inline-block;
+      margin-left: 4px;
+      cursor: pointer;
+
+      .top-badge-tooltip {
+        display: none;
+        position: absolute;
+        top: 100%;
+        bottom: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 8px;
+        margin-bottom: 0;
+        padding: 8px 12px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: $white;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 100;
+        min-width: 150px;
+        text-align: center;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 100%;
+          top: auto;
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+        }
+
+        .tooltip-title {
+          font-weight: bold;
+          margin-bottom: 4px;
+        }
+        
+        .tooltip-description {
+          white-space: normal;
+        }
+        
+        &.tooltip-shift-left {
+          left: 0;
+          transform: translateX(0);
+          &::after {
+            left: 15px;
+            margin-left: -5px;
+          }
+        }
+        
+        &.tooltip-shift-right {
+          left: auto;
+          right: 0;
+          transform: translateX(0);
+           &::after {
+            left: auto;
+            right: 10px;
+            margin-left: -5px;
+          }
+        }
+      }
+
+      &:hover .top-badge-tooltip {
+        display: block;
+      }
+      
+      &.earned {
+        opacity: 1;
+      }
+      &.unearned {
+        opacity: 0.5;
+      }
+    }
+    
+    .top-badge-more {
+      position: relative;
+      display: inline-block;
+      margin-left: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      color: $label-gray;
+
+      .top-badge-tooltip {
+        display: none;
+        position: absolute;
+        top: 100%;
+        bottom: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 8px;
+        margin-bottom: 0;
+        padding: 8px 12px;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: $white;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        z-index: 100;
+        min-width: 150px;
+        text-align: center;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 100%;
+          top: auto;
+          left: 50%;
+          margin-left: -5px;
+          border-width: 5px;
+          border-style: solid;
+          border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
+        }
+
+        .tooltip-title {
+          font-weight: bold;
+          margin-bottom: 4px;
+        }
+        
+        .tooltip-description {
+          white-space: normal;
+        }
+        
+        &.tooltip-shift-left {
+          left: 0;
+          transform: translateX(0);
+          &::after {
+            left: 15px;
+            margin-left: -5px;
+          }
+        }
+        
+        &.tooltip-shift-right {
+          left: auto;
+          right: 0;
+          transform: translateX(0);
+           &::after {
+            left: auto;
+            right: 10px;
+            margin-left: -5px;
+          }
+        }
+      }
+      
+      &:hover .top-badge-tooltip {
+        display: block;
+      }
+    }
+  }
+}
+
+#topbar .header-link {
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  color: $label-gray;
+  padding-left: 35px;
+  cursor: pointer;
+  background: transparent;
+}
+  
+#topbar .header-link::before {
+  top: 50%;
+  transform: translate(0, -50%);
+  position: absolute;
+  display: block;
+  content: '\a';
+  width: 23px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 0;
+}
+
+@media (max-width: 767px) {
+  #topbar .header-link {
+    overflow: hidden;
+    text-indent: 150%;
+    white-space: nowrap;
+    width: 20px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  #topbar .header-link::before {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 495px) {
+  #topbar #header-settings {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  #topbar {
+    height: 60px;
+  }
+}
+
+#header-settings::before {
+  background-image: url(/images/icon-startover-small.svg);
+}
+
+#header-about::before {
+  background-image: url(/images/icon-about-small.svg);
+}
+
+#toplinks #header-challenge.header-link {
+  background-color: $blue !important;
+  color: $white !important;
+  padding: 5px 10px !important;
+  border-radius: 4px !important;
+  margin-right: 5px !important;
+  background: $blue !important;
+  
+  &::before {
+    content: none !important;
+  }
+}
+
+#toplinks {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+#toplinks > button,
+#toplinks > div {
+  margin-left: 5px;
+}
+  
+@media (max-width: 767px) {
+  #toplinks > button,
+  #toplinks > div {
+    margin-left: 5px;
+  }
+}
+
+@media (max-width: 767px) {
+  #toplinks {
+  }
+}
+
+#header-back {
+  top: 50%;
+  transform: translate(0, -50%);
+  position: absolute;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  padding-left: 0;
+  padding-right: 0;
+  min-width: 62px;
+  padding-top: 65px;
+  font-size: 15px;
+  color: $label-gray;
+  left: 20px;
+  height: 0;
+  position: absolute;
+  padding-top: 40px;
+  width: 40px;
+  min-width: 40px;
+}
+
+#header-back::selection {
+  background: none;
+}
+
+#header-back:hover:before {
+  background-color: $background-gray;
+}
+
+#header-back[disabled] {
+  opacity: 0.3;
+}
+
+#header-back[disabled]:hover:before {
+  background-color: transparent;
+}
+
+#header-back:before {
+  content: '\a';
+  position: absolute;
+  background-position: center;
+  background-repeat: no-repeat;
+  top: 0;
+  border-radius: 50%;
+  background-size: contain;
+}
+
+#header-back:before {
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+}
+
+@media (max-width: 767px) {
+  #header-back {
+    font-size: 10px;
+    min-width: 42px;
+    width: 54px;
+    padding-top: 42px;
+    height: calc(1.6em + 40px);
+  }
+
+  #header-back:before {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  #header-back span {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 959px) {
+  #header-back {
+    min-width: 46px;
+    padding-top: 46px;
+    font-size: 12px;
+  }
+  
+  #header-back:before {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 959px) {
+  #header-back {
+    padding-top: 40px;
+    width: 40px;
+    min-width: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  #header-back {
+    left: 16px;
+    padding-top: 40px;
+    width: 40px;
+    min-width: 40px;
+    height: 0;
+  }
+}
+
+#header-back::before {
+  background-image: url(/images/icon-back.svg);
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+}
+
+@media (min-width: 768px) and (max-width: 959px) {
+  #header-back::before {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  #header-back::before {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+#header-back.fade {
+  opacity: 0.2;
+}
+
+#header-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  #header-logo {
+    font-size: 17px;
+  }
+}
+
+// --- Level Display Styles ---
+#level-display-container {
+    display: flex;
+    align-items: center;
+    color: white;
+    margin-right: 15px;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+#level-text {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+#progress-bar-container {
+  width: 150px; // Adjust width as needed
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative; // Needed for absolute positioning of points text
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.2);
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%; // Initial width
+  background: linear-gradient(to right, #4CAF50, #8BC34A);
+  border-radius: 10px;
+  transition: width 0.5s ease-out; // Smooth transition for width changes
+}
+
+#points-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+  white-space: nowrap; // Prevent text wrapping
+}
+
+// Animation for progress bar lighting up
+@keyframes progressBarPulse {
+  0% { box-shadow: 0 0 5px rgba(255, 255, 100, 0.7); }
+  50% { box-shadow: 0 0 15px 5px rgba(255, 255, 100, 1); }
+  100% { box-shadow: 0 0 5px rgba(255, 255, 100, 0.7); }
+}
+
+.progress-bar-animated {
+  animation: progressBarPulse 0.7s ease-out;
+}
+
+// Animation for level up flash
+@keyframes levelUpFlash {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(255, 255, 0, 0.3); }
+}
+
+.level-up-flash {
+  animation: levelUpFlash 1s ease-in-out;
+}

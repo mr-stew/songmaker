@@ -1,0 +1,32 @@
+@import "colors.scss";
+@import "modal.scss"; // Import base modal styles
+
+.challenge-modal-container {
+    // Inherit general modal styles from modal.scss
+    
+    .challenge-content {
+        padding: 40px;
+        text-align: left;
+        max-width: 600px; // Limit width
+        margin: 0 auto; // Center content area
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: $title-gray;
+        }
+
+        #challenge-list {
+            list-style: none;
+            padding: 0;
+
+            li {
+                background-color: $background-gray;
+                padding: 15px;
+                margin-bottom: 10px;
+                border-radius: 4px;
+                // Add hover effects or styles for completed challenges later
+            }
+        }
+    }
+} 

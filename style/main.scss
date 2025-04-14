@@ -1,0 +1,535 @@
+@import "colors.scss";
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 120;
+  }
+  50% {
+    stroke-dashoffset: 30;
+    transform: rotate(240deg);
+  }
+  100% {
+    stroke-dashoffset: 120;
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 120;
+  }
+  50% {
+    stroke-dashoffset: 30;
+    transform: rotate(240deg);
+  }
+  100% {
+    stroke-dashoffset: 120;
+    transform: rotate(720deg);
+  }
+}
+
+.range-cover {
+  overflow: visible;
+}
+
+.range-cover [type=range] {
+  margin: -5px 0 0 0;
+  padding: 0;
+  width: calc(100% + 32px);
+  height: 60px;
+  position: absolute;
+  left: -16px;
+  opacity: 0;
+  top: -12px;
+  cursor: pointer;
+}
+
+.range-cover [type=range],
+.range-cover [type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+@media (max-width: 767px) {
+  .range-cover [type=range] {
+    left: -10px;
+    width: calc(100% + 18px);
+    margin: -5px 0 0 0;
+  }
+}
+
+.range-cover [type=range]::-webkit-slider-runnable-track {
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  height: 60px;
+  background: $label-gray;
+}
+
+.range-cover [type=range]::-moz-range-track {
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  height: 60px;
+  background: $label-gray;
+}
+
+.range-cover [type=range]::-ms-track {
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  height: 60px;
+  background: $label-gray;
+}
+
+.range-cover [type=range]::-webkit-slider-thumb {
+  margin-top: 0px;
+  box-sizing: border-box;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: $blue;
+}
+
+.range-cover [type=range]::-moz-range-thumb {
+  box-sizing: border-box;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: $blue;
+}
+
+.range-cover [type=range]::-ms-thumb {
+  margin-top: 0;
+  box-sizing: border-box;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: $blue;
+}
+
+.range-cover .range-dupe {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 50%;
+  pointer-events: none;
+  background-color: $blue;
+  overflow: visible;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.range-cover .range-dupe::before {
+  position: absolute;
+  right: -16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: $blue;
+  content: '\a';
+  top: -12px;
+}
+
+.range-cover::before {
+  position: absolute;
+  width: 100%;
+  content: '\a';
+  height: 8px;
+  background: $background-gray;
+  top: 10px;
+  border-radius: 4px;
+  left: 0;
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .range-cover {
+    width: 23px;
+    padding-left: 0;
+  }
+
+  .range-cover .range-dupe::before {
+    position: absolute;
+    right: -9px;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    top: -5px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  overflow: hidden;
+  line-height: 1.89;
+  font-family: 'Quicksand', sans-serif;
+}
+
+body button,
+html button {
+  cursor: pointer;
+  border: none;
+  font-family: 'Quicksand', sans-serif;
+}
+
+body input,
+html input {
+  font-family: 'Quicksand', sans-serif;
+}
+
+body:not(.user-is-tabbing) button:focus,
+body:not(.user-is-tabbing) input:focus,
+body:not(.user-is-tabbing) select:focus,
+body:not(.user-is-tabbing) textarea:focus,
+body:not(.user-is-tabbing) *[tabindex] {
+  outline: none;
+}
+
+body.embed-only #tempo-slider,
+body.embed-only #bottom-right,
+body.embed-only #toplinks,
+body.embed-only #header-back,
+body.embed-only #gamepad,
+body.embed-only #bottom-left button:not(#play-button),
+body.embed-only #bottom-left::after,
+body.embed-only #topbar {
+  display: none;
+}
+
+body.embed-only #grid-container > canvas {
+  pointer-events: none;
+}
+
+body.embed-only #grid-container {
+  height: calc(100% - 51px);
+  top: 0;
+}
+
+@media (max-width: 767px) {
+  body.embed-only #grid-container {
+    height: calc(100% - 51px);
+    top: 0;
+  }
+}
+
+body.embed-only #bottom {
+  height: 51px;
+}
+
+body.embed-only #bottom #bottom-left {
+  width: 80px;
+  left: 30px;
+}
+
+body.embed-only #bottom #bottom-left #play-button {
+  display: inline-block;
+  margin-right: 20px;
+  height: 21px;
+  width: 21px;
+  min-width: 0;
+  padding-top: 21px;
+}
+
+body.embed-only #bottom #bottom-left #play-button.playing:before {
+  // background-image: url(/images/icon-stop-blue.svg);
+}
+
+body.embed-only #bottom #bottom-left #play-button:before {
+  background-color: transparent;
+  // background-image: url(/images/icon-play-blue.svg);
+  background-size: 21px 21px;
+  width: 15px;
+  height: 20px;
+  border-radius: 0;
+}
+
+body.embed-only #bottom #bottom-left #play-button:hover:before {
+  background-color: transparent;
+}
+
+@media (max-width: 767px) {
+  body.embed-only #bottom #bottom-left #play-button {
+    text-indent: 60px;
+    top: 14px;
+    left: 30px;
+  }
+}
+
+body.embed-only #edit-link {
+  position: absolute;
+  bottom: 13px;
+  right: 30px;
+  color: $blue;
+  font-size: 14px;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.67px;
+}
+
+body.embed-only #edit-link::before {
+  content: '\a';
+  position: relative;
+  margin-right: 10px;
+  // background-image: url(/images/icon-edit.svg);
+  height: 14px;
+  width: 14px;
+  display: inline-block;
+}
+
+.difficulty-info {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #888;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+    margin-left: 8px;
+    cursor: help;
+    font-style: italic;
+    vertical-align: middle;
+    position: relative;
+}
+
+.setting-group {
+    position: relative;
+}
+
+/* Remove absolute positioning for left column tooltips */
+.setting-column--left .difficulty-info {
+    margin-left: 5px;
+}
+
+/* Fixed tooltip position at the bottom of the modal */
+.difficulty-info .tooltip-text {
+    visibility: hidden;
+    width: 90%;
+    max-width: 500px;
+    background-color: rgba(51, 51, 51, 0.95);
+    color: white;
+    text-align: left;
+    padding: 12px;
+    border-radius: 6px;
+    /* Fixed position at bottom of modal */
+    position: fixed;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    font-style: normal;
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+/* Remove the directional arrows as they're not needed for fixed position */
+.difficulty-info .tooltip-text::after {
+    display: none;
+}
+
+.difficulty-info:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+#settings-modal {
+    .expandable-inner {
+        overflow: visible;
+    }
+    
+    .setting-column {
+        float: left;
+        width: 50%;
+        box-sizing: border-box;
+        padding: 0 10px;
+        
+        @media (max-width: 640px) {
+            float: none;
+            width: 100%;
+            padding: 0;
+        }
+    }
+    
+    .setting-column--left {
+        padding-left: 0;
+        
+        @media (max-width: 640px) {
+            margin-bottom: 20px;
+        }
+    }
+    
+    .setting-column--right {
+        padding-right: 0;
+    }
+    
+    .badge-settings-section {
+        clear: both;
+        display: block;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// LEVEL UP ANIMATION
+///////////////////////////////////////////////////////////////////////////////
+
+#level-up-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); // Semi-transparent overlay
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; // Ensure it's above other elements
+    opacity: 0;
+    pointer-events: none; // Allow clicks through while invisible
+    transition: opacity 0.5s ease-in-out; // Fade in/out
+    font-family: 'Poppins', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    text-align: center;
+
+    .level-up-text {
+        font-size: 5em; // Large text
+        font-weight: bold;
+        color: #FFD700; // Gold color
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        transform: scale(0.5);
+        opacity: 0;
+        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease-out; // Scale/fade in text
+        transition-delay: 0.3s; // Delay text appearance
+    }
+
+    .level-up-number {
+        font-size: 7em; // Even larger level number
+        font-weight: bold;
+        color: #FFFFFF; // White color
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+        margin-top: 10px;
+        transform: scale(0.5);
+        opacity: 0;
+        transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s ease-out; // Different timing for number
+        transition-delay: 0.6s; // Delay number appearance more
+    }
+
+    &.show {
+        opacity: 1;
+        pointer-events: auto; // Block clicks while visible
+        transition: opacity 0.5s ease-in-out; // Fade in
+
+        .level-up-text,
+        .level-up-number {
+            transform: scale(1); // Scale text to full size
+            opacity: 1; // Fade in text
+        }
+
+        // Add a slight delay before fading out the whole overlay
+        transition: opacity 0.5s ease-in-out 2s; // Start fading out after 2s
+    }
+}
+
+// Styles for the Reset Game Section
+.reset-game-section {
+    margin-top: 20px; // Add some space above
+    padding-top: 15px; // Add padding inside the group
+    border-top: 1px solid rgba(255, 255, 255, 0.1); // Separator line
+
+    .danger-button {
+        position: relative; // Needed for absolute positioning of the icon
+        background-color: #e74c3c; // Red background
+        color: white;
+        font-weight: bold;
+        padding: 10px 20px; // Make it larger
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        width: 100%; // Make it full width within its container
+        margin-top: 5px; // Space below the label
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+        &:hover {
+            background-color: #c0392b; // Darker red on hover
+        }
+
+        &:active {
+            background-color: #a93226; // Even darker red when pressed
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        // Style for the icon moved inside the button
+        .difficulty-info {
+            position: absolute;
+            right: 10px; // Position on the right side
+            top: 50%;
+            transform: translateY(-50%); // Center vertically
+            margin-left: 0; // Remove previous margin
+            background-color: rgba(0, 0, 0, 0.2); // Darker background for contrast
+
+            // Adjust tooltip position relative to the button
+            .tooltip-text {
+                position: absolute; // Now relative to the button
+                bottom: 120%; // Position above the icon
+                left: 50%;
+                transform: translateX(-90%); // Adjust horizontal position (shift left)
+                width: 250px; // Adjust width as needed
+                max-width: none;
+                // Remove fixed positioning properties
+                // position: fixed;
+                // bottom: 70px;
+                // left: 50%;
+                // transform: translateX(-50%);
+                
+                // Add arrow pointing down to the icon
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 100%; // At the bottom of the tooltip
+                    left: 85%; // Position arrow near the icon
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: rgba(51, 51, 51, 0.95) transparent transparent transparent; 
+                }
+            }
+
+            // Ensure tooltip shows on icon hover
+            &:hover .tooltip-text {
+                 visibility: visible;
+                 opacity: 1;
+            }
+        }
+    }
+
+    /* Original difficulty-info styles outside the button (now removed/overridden) */
+    /*
+    .difficulty-info {
+        margin-top: 10px; // Space above the warning text
+        font-size: 0.9em;
+        color: #f39c12; // Warning color
+    }
+    */
+}
