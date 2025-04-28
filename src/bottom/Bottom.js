@@ -174,13 +174,10 @@ export class Bottom extends EventEmitter {
         this.saveButton.textContent = 'Save'
         this.saveButton.addEventListener('click', e => {
             e.preventDefault()
-            if (this.sound) {
-                console.log("Save button clicked, triggering MIDI download...");
-                this.sound.downloadMidi();
-            } else {
-                console.error("Sound object not available in Bottom component.");
-            }
-            GA.track({ eventCategory: 'bottom', eventLabel: 'save_midi' })
+            this.emit('save')
+            console.log("[Bottom.js] 'save' event emitted correctly.");
+            this.saveButton.setAttribute('aria-label', 'Saving...');
+            GA.track({ eventCategory: 'bottom', eventLabel: 'save_button_clicked' })
         })
 
         this.midiButton = document.createElement('button')

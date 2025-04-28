@@ -5,7 +5,7 @@ FROM node:12-buster
 RUN apt-get update && apt-get install -y python2.7 --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # Install yarn and a static server globally
-RUN npm install -g yarn serve
+RUN npm install -g serve@13
 
 # Set the working directory
 WORKDIR /app
@@ -28,4 +28,4 @@ RUN yarn build
 # Command to run the application using the serve package
 # Serve the 'dist' directory, enable single-page app mode (-s), and listen on $PORT
 # If index.html is not in 'dist' after build, adjust the CMD or build process
-CMD ["serve", "-s", "dist", "-l", "$PORT"] 
+CMD serve -s dist -l $PORT 

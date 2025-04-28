@@ -124,6 +124,12 @@ export class TopBar extends EventEmitter {
                 this.updateBadgeIcons()
             })
             
+            // --- Add listener for badge reset --- 
+            this.badgeSystem.on('badges-reset', () => {
+                console.log("[TopBar] \'badges-reset\' event received.");
+                this.updateBadgeIcons();
+            })
+            
             this.badgeSystem.on('badges-toggled', (enabled) => {
                 this.toggleBadgeIcons(enabled)
             })
@@ -307,6 +313,7 @@ export class TopBar extends EventEmitter {
     // Update the badge icons displayed in the top bar
     updateBadgeIcons() {
         if (!this.badgeSystem) return;
+        console.log("[TopBar] updateBadgeIcons called. Earned badges:", JSON.stringify(this.badgeSystem.earnedBadges));
         
         // Get all badges and earned badge IDs
         const allBadges = this.badgeSystem.getAllBadges();

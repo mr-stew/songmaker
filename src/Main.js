@@ -348,8 +348,9 @@ bottom.on('undo', () => {
     console.log("hello")
 })
 bottom.on('save', () => {
-    cloud.save()
-    topBar.triggerShare()
+    console.log("[Main.js] 'save' event received. Calling cloud.save() for badge/download triggers.");
+    // Call cloud.save() to trigger the 'save-success' event for badge/download
+    cloud.save(); 
 })
 bottom.on('stop', () => {
     sound.stop()
@@ -435,11 +436,15 @@ import { Cloud } from 'cloud/Cloud'
 const cloud = new Cloud(songOptions, midiData)
 
 cloud.on('save-success', id => {
-    console.log("[Main] Save successful (simulated), ID:", id); // Keep log if helpful
-    if (!topBar.modals.share) {
-        topBar.triggerShare({ id })
-    } else {
-        topBar.modals.share.populateSaveData({ id })
+    console.log("[Main] Save successful (simulated), ID:", id);
+    // Award Badge
+    if (badgeSystem) { 
+        badgeSystem.awardBadge('firstComposition');
+    }
+    // Trigger MIDI Download after successful save
+    if (sound) {
+        console.log("[Main] Triggering MIDI download after save success.");
+        sound.downloadMidi();
     }
 })
 

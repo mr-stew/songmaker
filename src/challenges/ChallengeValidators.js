@@ -52,29 +52,33 @@ export function validateUpDownMelody(midiData, songOptions) {
     const notes = [];
     midiData.instrument.forEach(event => notes.push({ time: event.time, pitch: event.note }));
     
-    if (notes.length < 2) return false; // Need at least two notes for motion
+    // Need at least three notes for two movements
+    if (notes.length < 3) return false; 
     
     // Sort notes by time
     notes.sort((a, b) => a.time - b.time);
 
-    let hasUpward = false;
-    let hasDownward = false;
+    let upwardSteps = 0; // Count upward steps
+    let downwardSteps = 0; // Count downward steps
 
     for (let i = 1; i < notes.length; i++) {
         const pitchDiff = notes[i].pitch - notes[i-1].pitch;
         if (pitchDiff > 0) {
-            hasUpward = true;
+            upwardSteps++;
         }
         if (pitchDiff < 0) {
-            hasDownward = true;
+            downwardSteps++;
         }
-        // If both found, no need to check further
-        if (hasUpward && hasDownward) {
+        // If enough steps found, no need to check further
+        // Require at least 2 of each type of step
+        if (upwardSteps >= 2 && downwardSteps >= 2) {
+            console.log("[validateUpDownMelody] Found >= 2 upward and >= 2 downward steps. Challenge complete.");
             return true;
         }
     }
-
-    return false; // Didn't find both upward and downward motion
+    
+    console.log(`[validateUpDownMelody] Conditions not fully met. Upward: ${upwardSteps}, Downward: ${downwardSteps}`);
+    return false; // Didn't find enough upward and downward motion
 }
 
 /**

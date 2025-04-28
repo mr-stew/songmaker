@@ -31,26 +31,43 @@ export class Cloud extends EventEmitter {
     }
 
     async save() {
-        // post the data
-        const form = new FormData()
-        form.append('midi', this.midiData.encode(this.options))
-        form.append('data', JSON.stringify(this.options.toJSON()))
-
-        const response = await fetch(SAVE_URL_PATH, {
-            method: 'POST',
-            body: form
-        }).then(ret => {
-            if (ret.ok) {
-                var rj = ret.json()
-                this.emit('save-success', rj.id)
-                return rj
-            } else {
-                throw new Error(`could not post file: ${ret.status}`)
-            }
-        })
-
-        //apply the url
-        this.url.setId(response.id)
+        // --- Simulate save locally, perform real fetch in production ---
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log("[Cloud.js] Running locally. Simulating successful save.");
+            // Simulate a delay
+            await new Promise(resolve => setTimeout(resolve, 500)); 
+            const dummyId = `local_${Date.now()}`;
+            this.emit('save-success', dummyId); 
+            // this.url.setId(dummyId); // Optionally update URL
+            // Return a RESOLVED PROMISE containing the ID object
+            return Promise.resolve({ id: dummyId }); 
+        } else {
+             // --- Original Fetch Logic for Production --- 
+            console.log("[Cloud.js] Running in production environment. Attempting real save.");
+            // post the data
+            const form = new FormData()
+            form.append('midi', this.midiData.encode(this.options))
+            form.append('data', JSON.stringify(this.options.toJSON()))
+    
+            const response = await fetch(SAVE_URL_PATH, {
+                method: 'POST',
+                body: form
+            }).then(ret => {
+                if (ret.ok) {
+                    var rj = ret.json()
+                    console.log("[Cloud.js] Save fetch successful. Emitting 'save-success'.")
+                    this.emit('save-success', rj.id)
+                    return rj
+                } else {
+                    console.error(`[Cloud.js] Save fetch failed with status: ${ret.status}`);
+                    throw new Error(`could not post file: ${ret.status}`)
+                }
+            })
+    
+            //apply the url
+            this.url.setId(response.id)
+            return response; // Return the actual response object
+        }
     }
     async load(id) {
         this.emit('load-start', id)

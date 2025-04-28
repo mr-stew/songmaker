@@ -92,6 +92,7 @@ export class StartSongModal extends Modal {
         if (!resetButton) return;
 
         resetButton.addEventListener('click', () => {
+            console.log("[StartSongModal] Reset button clicked.");
             // Confirmation dialog
             const confirmed = confirm("Are you sure you want to reset all your progress? This includes challenges, badges, and levels, and cannot be undone.");
 

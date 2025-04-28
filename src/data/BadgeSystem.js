@@ -121,8 +121,12 @@ export class BadgeSystem extends EventEmitter {
     // Award a specific badge if not already earned
     awardBadge(badgeId) {
         console.log(`[BadgeSystem] Attempting to award badge: ${badgeId}`); // Keep log
+        // Specific log for firstComposition
+        if (badgeId === 'firstComposition') {
+             console.log("[BadgeSystem] awardBadge called for firstComposition.");
+        }
         if (!this.enabled) {
-            console.log(`[BadgeSystem] Awarding failed: Badges disabled.`); // Keep log
+            console.log(`[BadgeSystem] Awarding failed for ${badgeId}: Badges disabled.`); // Keep log
             return false;
         }
         // Ensure the badge ID exists in our definitions before awarding
@@ -131,7 +135,7 @@ export class BadgeSystem extends EventEmitter {
              return false;
         }
         if (this.hasBadge(badgeId)) {
-            console.log(`[BadgeSystem] Awarding failed: Badge ${badgeId} already earned.`); // Keep log
+            console.log(`[BadgeSystem] Awarding failed for ${badgeId}: Badge already earned.`); // Keep log
             return false;
         }
 
@@ -176,14 +180,6 @@ export class BadgeSystem extends EventEmitter {
         console.log("[BadgeSystem] Earned badges before checks:", JSON.stringify(this.earnedBadges));
 
         // --- Checks for Remaining Badges ---
-
-        // First composition badge (Relies on save)
-        // Check if save functionality implies cloud save simulation is needed?
-        // Assuming save means "initiated action that leads to check", not necessarily cloud save now.
-        if (!this.hasBadge('firstComposition')) {
-            console.log("[BadgeSystem] Checking for badge: firstComposition");
-            this.awardBadge('firstComposition');
-        }
 
         // Track scale used
         this.usedScales.add(songOptions.scale);
@@ -238,29 +234,56 @@ export class BadgeSystem extends EventEmitter {
     // Check if all available notes in the current scale were used
     checkNoteCompletionist(songOptions, midiData) {
         console.log("[BadgeSystem] checkNoteCompletionist running..."); // Keep log
-        if (this.hasBadge('noteCompletionist')) { /* ... log and return ... */ return; }
+        if (this.hasBadge('noteCompletionist')) {
+             console.log("[BadgeSystem] Note Completionist already earned.");
+             return;
+        }
 
         const scale = nameToScale(songOptions.scale);
-        if (!scale) { /* ... log and return ... */ return; }
+        if (!scale) {
+            console.log("[BadgeSystem] Note Completionist check skipped: Invalid scale.");
+             return;
+        }
         const notesInScale = new Set();
         const usedNotes = new Set();
 
+        // Calculate all notes required for the current scale/octave range
         for (let octave = 0; octave < songOptions.octaves; octave++) {
             for (const noteOffset of scale) {
                 notesInScale.add(songOptions.rootNote + noteOffset + (octave * 12));
             }
         }
+        console.log("[BadgeSystem] Required notes for completion:", Array.from(notesInScale).sort((a, b) => a - b)); // Log required notes
 
-        if (!midiData || !midiData.instrument) { /* ... log and return ... */ return; }
+        // Get notes currently used in the instrument track
+        if (!midiData || !midiData.instrument || midiData.instrument.length === 0) {
+            console.log("[BadgeSystem] Note Completionist check skipped: No instrument notes found.");
+            return; // Cannot complete if there are no notes
+        }
         midiData.instrument.forEach(event => { usedNotes.add(event.note); });
-        console.log("[BadgeSystem] checkNoteCompletionist: Used instrument notes:", Array.from(usedNotes)); // Keep log
+        console.log("[BadgeSystem] Used instrument notes:", Array.from(usedNotes).sort((a, b) => a - b)); // Keep log
 
+        // Check if all required notes are present in the used notes
         let allUsed = true;
-        if (notesInScale.size === 0) { allUsed = false; /* ... log ... */ }
-        else { /* ... check notes ... */ }
+        if (notesInScale.size === 0) {
+             console.log("[BadgeSystem] Note Completionist check: No notes required for this scale/octave setup.");
+             allUsed = false; // Cannot complete if no notes are required
+        } else {
+            for (const note of notesInScale) {
+                if (!usedNotes.has(note)) {
+                    console.log(`[BadgeSystem] Note Completionist check: Missing required note ${note}`);
+                    allUsed = false;
+                    break; // No need to check further
+                }
+            }
+        }
 
-        if (allUsed) { /* ... log and award ... */ this.awardBadge('noteCompletionist'); }
-        else { /* ... log not met ... */ }
+        if (allUsed) {
+            console.log("[BadgeSystem] Note Completionist requirements met. Awarding badge.");
+            this.awardBadge('noteCompletionist');
+        } else {
+            console.log("[BadgeSystem] Note Completionist requirements not met.");
+        }
     }
 
     // Check if both percussion tracks are used
@@ -292,6 +315,7 @@ export class BadgeSystem extends EventEmitter {
         this.saveEarnedBadges();
         this.saveProgressData();
         this.emit('badges-reset');
+        console.log("[BadgeSystem] \'badges-reset\' event emitted.");
         console.log("[BadgeSystem] All badge progress reset."); // Keep log
     }
 } 
